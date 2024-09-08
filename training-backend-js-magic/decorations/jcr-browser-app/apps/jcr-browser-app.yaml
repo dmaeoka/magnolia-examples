@@ -1,0 +1,51 @@
+#subApps:
+#  browser:      
+#    actions:
+      ### For exercise: 'Exercise: Custom Action by Code' -> back to the Pages browser subApp on the selected node
+#      openInPagesBrowserSubAppJs: &toPagesAppActionConfiguration
+#        label: View in Pages-Browser App (JS)
+#        $type: jsAction
+#        icon: icon-view
+#        modelPath: /training-backend-js-magic/js-backend-resources/backend-live/actions/OpenSubAppAction.js
+#        parameters:
+#          appName: pages-app
+#          subAppId: browser
+#        exposedComponents:
+#          locationController:
+#            componentClass: info.magnolia.ui.api.location.LocationController
+#            name: locationController
+#        availability:
+#          properties: true
+#          writePermissionRequired: false
+#          access:
+#            roles:
+#              superuser: superuser
+#      
+      ### For exercise: 'Exercise: Custom Action by Code' -> back to the Pages detail subApp on the selected node
+#      openInPagesDetailSubAppJs:
+#        <<: *toPagesAppActionConfiguration
+#        label: View in Pages-Detail App (JS)
+#        parameters:
+#          appName: pages-app
+#          subAppId: detail
+#          addToLocationParameter: ':edit'
+#
+#    actionbar:
+#      sections:
+#        nodes:
+#          groups:
+#            addingActions:
+#              items:
+#                openInPagesBrowserSubAppJs:
+#                  name: openInPagesBrowserSubAppJs
+#                openInPagesDetailSubAppJs:
+#                  name: openInPagesDetailSubAppJs
+#        
+#        properties:
+#          groups:
+#            addingActions:
+#              items:
+#                openInPagesBrowserSubAppJs:
+#                  name: openInPagesBrowserSubAppJs
+#                openInPagesDetailSubAppJs:
+#                  name: openInPagesDetailSubAppJs

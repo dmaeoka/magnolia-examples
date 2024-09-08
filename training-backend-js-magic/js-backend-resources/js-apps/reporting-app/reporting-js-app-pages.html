@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.5.7/css/pico.min.css" />
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+      body {
+        padding: 2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <h1>10 last modified pages</h1>
+      <div id="root"></div>
+    </div>
+    <script type="text/babel">
+      function Pages() {
+        const [pages, setPages] = React.useState([]);
+
+        React.useEffect(() => {
+          fetch(WEBAPP_CONTEXT_PATH + CONFIGURED_PAGES_URL + CONFIGURED_URL_PARAMETERS)
+            .then((res) => res.json())
+            .then((json) => setPages(json.results));
+        }, []);
+
+        return (
+          <table>
+            <thead>
+              <tr>
+                <th scope='col'>#</th>
+                <th scope='col'>@path</th>
+                <th scope='col'>Created by</th>
+                <th scope='col'>Modified</th>
+                <th scope='col'>Modified by</th>
+                <th scope='col'>Published</th>
+              </tr>
+            </thead>
+            <tbody>
+              {pages.map((item, i) => (
+                <tr>
+                  <th scope='row'>{i}</th>
+                  <td>
+                    <a
+                      href='#'
+                      onClick={(e) => {
+                        e.preventDefault();
+                        parent.window.postMessage(
+                          {
+                            action: 'changeLocation',
+                            correlationId: CORRELATION_ID,
+                            app: 'pages-app',
+                            subapp: 'detail',
+                            tabTitle: '',
+                            urlParameter: item['@path'],
+                          },
+                          '*'
+                        );
+                      }}
+                    >
+                      {item['@path']}
+                    </a>
+                  </td>
+                  <td>{item['mgnl:createdBy']}</td>
+                  <td>{item['mgnl:lastModified']}</td>
+                  <td>{item['mgnl:lastModifiedBy']}</td>
+                  <td>{item['mgnl:activationStatus'] ? '🟢' : '🔴'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        );
+      }
+
+      // Config
+      let CORRELATION_ID;
+      let CONFIGURED_PAGES_URL;
+      let CONFIGURED_URL_PARAMETERS;
+      let WEBAPP_CONTEXT_PATH;
+
+      window.addEventListener(
+        'message',
+        function (event) {
+          if (event.data.action === 'init') {
+            CORRELATION_ID = event.data.correlationId;
+            CONFIGURED_PAGES_URL = event.data.state.parameters.pagesUrl;
+            CONFIGURED_URL_PARAMETERS = event.data.state.parameters.urlParams;
+            WEBAPP_CONTEXT_PATH = window.location.pathname.slice(0, window.location.pathname.indexOf("/.resources/"));
+
+            const container = document.getElementById('root');
+            const root = ReactDOM.createRoot(container);
+
+            root.render(<Pages />);
+          }
+        },
+        false
+      );
+    </script>
+  </body>
+</html>

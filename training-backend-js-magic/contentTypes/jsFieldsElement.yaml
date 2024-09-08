@@ -1,0 +1,8 @@
+datasource:
+  workspace: jsfieldselements
+  autoCreate: true
+
+model:
+  nodeType: jsfieldselement
+  properties:
+    - name: staticvalue

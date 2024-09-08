@@ -1,0 +1,44 @@
+form:
+  label: Page properties
+  tabs:
+    - name: tabMain
+      label: Samples Page
+      fields:
+        - name: title
+          class: info.magnolia.ui.form.field.definition.TextFieldDefinition
+          i18n: true
+          label: Title
+        - name: navigationTitle
+          class: info.magnolia.ui.form.field.definition.TextFieldDefinition
+          i18n: true
+          label: Navigation Title
+        - name: windowTitle
+          class: info.magnolia.ui.form.field.definition.TextFieldDefinition
+          i18n: true
+          label: Window Title
+        - name: hideInNav
+          class: info.magnolia.ui.form.field.definition.CheckboxFieldDefinition
+          defaultValue: false
+          i18n: false
+          type: Boolean
+          label:  Hide In Navigation
+          buttonLabel: Hide
+    - name: tabMeta
+      label: Meta Data
+      fields:
+        - name: keywords
+          class: info.magnolia.ui.form.field.definition.TextFieldDefinition
+          i18n: true
+          label: Keywords
+          rows: 3
+        - name: description
+          class: info.magnolia.ui.form.field.definition.TextFieldDefinition
+          i18n: true
+          label: Description
+          rows: 5
+
+actions:
+  commit:
+    class: info.magnolia.ui.dialog.action.SaveDialogActionDefinition
+  cancel:
+    class: info.magnolia.ui.dialog.action.CancelDialogActionDefinition

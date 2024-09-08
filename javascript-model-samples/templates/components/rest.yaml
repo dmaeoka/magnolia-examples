@@ -1,0 +1,8 @@
+title: REST Sample
+templateScript: /javascript-model-samples/templates/components/rest.ftl
+renderType: freemarker
+# class: info.magnolia.module.jsmodels.rendering.JavascriptTemplateDefinition
+
+class: info.magnolia.module.jsmodels.rendering.ConfiguredJavascriptTemplateDefinition
+modelClass: info.magnolia.module.jsmodels.rendering.JavascriptRenderingModel
+modelPath: /javascript-model-samples/templates/components/rest.js

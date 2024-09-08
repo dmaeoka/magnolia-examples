@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  </head>
+  <body>
+    <input id="input" type="number" /><button id="btn">Change height</button>
+    <script>
+      let input = document.getElementById('input');
+      let btn = document.getElementById('btn');
+      let correlationId;
+
+      btn.addEventListener('click', function () {
+        parent.window.postMessage({ action: 'changeHeight', correlationId, value: input.value }, '*');
+      });
+
+      window.addEventListener(
+        'message',
+        function (event) {
+          if (event.data.action === 'init') {
+            correlationId = event.data.correlationId;
+          }
+        },
+        false
+      );
+    </script>
+  </body>
+</html>

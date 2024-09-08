@@ -1,0 +1,16 @@
+
+        
+layout:
+  groups:
+    - name: js-apps
+      apps:
+        - name: reporting-js-app
+        - name: categories-js-app
+        - name: jsfields-app
+        
+  rows:
+    - name: two
+      groups:
+        1: js-apps
+        2: categorisation
+        3: translation

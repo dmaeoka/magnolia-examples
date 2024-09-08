@@ -1,0 +1,22 @@
+name: categories-js-app
+label: Categories (JS)
+icon: icon-categories
+
+class: info.magnolia.ui.contentapp.configuration.ContentAppDescriptor
+appClass: info.magnolia.ui.framework.app.BaseApp
+
+subApps:
+  firstApp:
+    class: info.magnolia.ui.javascript.app.JavascriptSubAppDescriptor
+    label: Browser
+    fieldScript: /training-backend-js-magic/js-backend-resources/js-apps/categories-app/categories-js-app-browser.html
+    parameters:
+      categoriesUrl: '/.rest/categories-js-app'
+
+  secondApp:
+    class: info.magnolia.ui.javascript.app.JavascriptSubAppDescriptor
+    label: Detail
+    fieldScript: /training-backend-js-magic/js-backend-resources/js-apps/categories-app/categories-js-app-detail.html
+    parameters:
+      categoriesUrl: '/.rest/categories-js-app'
+      categoriesNodesUrl: '/.rest/nodes/v1/category'

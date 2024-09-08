@@ -1,0 +1,175 @@
+subApps:
+  browser:
+    workbench:
+      contentViews:
+        tree:
+          columns:
+            locked:
+              $type: jsColumn
+              label: Locked
+              width: 100
+              modelPath: /training-backend-js-magic/js-backend-resources/backend-live/valueProviders/BooleanIconValueProvider.js
+              parameters:
+                trueImg: 🔒
+
+    actions:      
+      turnOnLock: &turnOnLockAction
+        label: Turn on Lock
+        $type: jsAction
+        icon: icon-read-only
+        modelPath: /training-backend-js-magic/js-backend-resources/backend-live/actions/ChangeValueAction.js
+        parameters:
+          propertyName: locked
+          propertyValue: true
+        availability:
+          rules:
+            isTemplate: &isTemplateRule
+              $type: jsAvailability
+              modelPath: /training-backend-js-magic/js-backend-resources/backend-live/rules/IsTemplateRule.js
+              parameters:
+                templates:
+                  lockablePage: 'training-backend-js-magic:pages/lockable-page'
+                  lockableSubpage: 'training-backend-js-magic:pages/lockable-subpage'
+            isNotLocked: &isNotLockedRule
+              $type: jsAvailability
+              modelPath: /training-backend-js-magic/js-backend-resources/backend-live/rules/IsPropertyValueRule.js
+              parameters:
+                propertyName: locked
+                propertyValue: false
+      
+      turnOffLock:  &turnOffLockAction
+        label: Turn off Lock
+        icon: icon-logging-app
+        $type: jsAction
+        modelPath: /training-backend-js-magic/js-backend-resources/backend-live/actions/ChangeValueAction.js
+        parameters:
+          propertyName: locked
+          propertyValue: false
+        availability:
+          rules:
+            isTemplate: *isTemplateRule
+            isLocked:
+              $type: jsAvailability
+              modelPath: /training-backend-js-magic/js-backend-resources/backend-live/rules/IsPropertyValueRule.js
+              parameters:
+                propertyName: locked
+                propertyValue: true
+      toJcrBrowserAppJs: &toJcrBrowserAppActionConfiguration
+        label: View in JCR-Browser App  (JS)
+        icon: icon-view
+        $type: jsAction
+        modelPath: /training-backend-js-magic/js-backend-resources/backend-live/actions/OpenSubAppAction.js
+        parameters:
+          appName: jcr-browser-app
+          subAppId: browser
+        exposedComponents:
+          locationController:
+            componentClass: info.magnolia.ui.api.location.LocationController
+            name: locationController
+        availability:
+          writePermissionRequired: false
+          access:
+            roles:
+              superuser: superuser
+    
+    actionbar:
+      sections:
+        crud:
+          availability:
+            rules:
+              isNotLocked: *isNotLockedRule
+          groups:
+            lockActions:
+              items:
+                turnOnLock:
+                  name: turnOnLock
+                turnOffLock:
+                  name: turnOffLock
+            edit:
+              items:
+                toJcrBrowserAppJs:
+                  name: toJcrBrowserAppJs
+
+                  
+        lock:
+          availability:
+            nodeTypes:
+              name: mgnl:page
+            rules:
+              isTemplate: *isTemplateRule
+              isLocked: &isLockedRule
+                $type: jsAvailability
+                modelPath: /training-backend-js-magic/js-backend-resources/backend-live/rules/IsPropertyValueRule.js
+                parameters:
+                  propertyName: locked
+                  propertyValue: true      
+          groups:
+            lockActions:
+              items:
+                turnOffLock:
+                  name: turnOffLock
+                preview:
+                  name: preview
+
+  detail:
+    actions:
+      turnOnLock: *turnOnLockAction
+      turnOffLock: *turnOffLockAction
+      #### For exercise: 'Exercise: Custom Action by Code' -> openining the JCR Broswer App on the selected node OR on the clicked component or area
+      toJcrBrowserAppJs:
+        <<: *toJcrBrowserAppActionConfiguration
+        parameters:
+          appName: jcr-browser-app
+          subAppId: browser
+          useContentSubNodes: true
+
+    
+    actionbar:
+      sections:
+        pageActions:
+          groups: &toJcrBrowserAppActionbarGroups
+            edit:
+              items:
+                toJcrBrowserAppJs:
+                  name: toJcrBrowserAppJs
+          availability: &notTemplateNorLockedAvailability
+            rules:
+              isNotLocked:
+                <<: *isNotLockedRule
+        areaActions:
+          groups: *toJcrBrowserAppActionbarGroups
+          availability:
+            <<: *notTemplateNorLockedAvailability
+        pageNodeAreaActions:
+          groups: *toJcrBrowserAppActionbarGroups
+          availability:
+            <<: *notTemplateNorLockedAvailability
+        componentActions:
+          groups: *toJcrBrowserAppActionbarGroups
+          availability:
+            <<: *notTemplateNorLockedAvailability
+        pageDeleteActions:
+          groups: *toJcrBrowserAppActionbarGroups
+          availability:
+            <<: *notTemplateNorLockedAvailability
+        pagePreviewActions:
+          groups: *toJcrBrowserAppActionbarGroups
+          availability:
+            <<: *notTemplateNorLockedAvailability
+        lockedPagePreviewActions:
+          availability:
+            nodeTypes:
+              name: mgnl:page
+            rules:
+              isTemplate: *isTemplateRule
+              isLocked: *isLockedRule
+              inPreview:
+                name: inPreview
+                class: info.magnolia.pages.app.detail.action.availability.IsPreviewRuleDefinition
+          groups:
+            publish:
+              items:
+                activate:
+                  name: activate
+                deactivate:
+                  name: deactivate

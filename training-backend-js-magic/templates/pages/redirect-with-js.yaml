@@ -1,0 +1,12 @@
+title: Training - Redirect Template Javascript Models
+class: info.magnolia.module.jsmodels.rendering.JavascriptTemplateDefinition
+renderType: freemarker
+dialog: training-backend-js-magic:pages/redirect
+templateScript: /training-backend-js-magic/templates/pages/redirect.ftl
+modelClass: info.magnolia.module.jsmodels.rendering.JavascriptRenderingModel
+modelPath: /training-backend-js-magic/templates/pages/redirect-with-js.js
+
+type: training-redirect
+
+
+### Speack about mgnl jumpstart

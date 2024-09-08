@@ -1,0 +1,9 @@
+workspace: dam
+limit: 10
+systemProperties:
+  - mgnl:createdBy
+  - mgnl:activationStatus
+  - mgnl:lastModified
+  - mgnl:lastModifiedBy
+nodeTypes:
+  - mgnl:asset

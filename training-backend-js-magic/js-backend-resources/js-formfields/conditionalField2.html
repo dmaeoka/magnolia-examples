@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  </head>
+  <body>
+    <select id="input">
+      <!-- <option value="">--Please choose an option--</option> -->
+    </select>
+    <script>
+      let input = document.getElementById('input');
+      let correlationId;
+      let conditionalField1;
+
+      function changeValue() {
+        parent.window.postMessage({ action: 'changeValue', correlationId, value: input.value }, '*');
+      }
+
+      function createOption(value, textContent) {
+        const option = document.createElement('option');
+
+        option.value = value;
+        option.textContent = textContent;
+
+        return option;
+      }
+
+      function setOptions(type) {
+        if (type) {
+          conditionalField1 = type;
+
+          while (input.lastElementChild) {
+            input.removeChild(input.lastElementChild);
+          }
+
+          input.appendChild(createOption('', '-- Please choose an option --'));
+          input.appendChild(createOption(type + '1', type + '1'));
+          input.appendChild(createOption(type + '2', type + '2'));
+        }
+      }
+
+      input.addEventListener('change', changeValue);
+
+      window.addEventListener(
+        'message',
+        function (event) {
+          switch (event.data.action) {
+            case 'init':
+              const value = event.data.state.value || event.data.state.defaultValue || '';
+
+              correlationId = event.data.correlationId;
+
+              if (value) setOptions(value.slice(0, -1));
+
+              input.value = value;
+
+              break;
+            case 'change':
+              const newConditionalField1 = event.data.state.formFields.conditionalField1;
+
+              if (conditionalField1 !== newConditionalField1) {
+            	  setOptions(newConditionalField1);
+            	  changeValue();
+              }
+
+              break;
+            default:
+          }
+        },
+        false
+      );
+    </script>
+  </body>
+</html>

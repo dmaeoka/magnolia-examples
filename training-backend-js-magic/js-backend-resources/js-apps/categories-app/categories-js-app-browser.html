@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="./categories-js-app.css" rel="stylesheet" />
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      function toggle(array, value) {
+        const newArray = JSON.parse(JSON.stringify(array));
+        const index = newArray.findIndex((item) => item['@id'] === value['@id']);
+
+        if (index === -1) {
+          newArray.push(value);
+        } else {
+          newArray.splice(index, 1);
+        }
+
+        return newArray;
+      }
+
+      function Browser() {
+        const [categories, setCategories] = React.useState([]);
+        const [selected, setSelected] = React.useState([]);
+
+        React.useEffect(() => {
+          fetch(WEBAPP_CONTEXT_PATH + CATEGORIES_URL)
+            .then((res) => res.json())
+            .then((json) => {
+              setCategories(json?.results);
+              console.log(categories)
+            });
+        }, []);
+
+        React.useEffect(() => {
+          const selectedId = sessionStorage.getItem('selectedId');
+          const newSelected = categories.find((item) => item['@id'] === selectedId);
+
+          if (newSelected) setSelected([newSelected]);
+        }, [categories]);
+
+        return (
+          <div className='Browser'>
+            <div className='workbench'>
+              <h1>Categories (JS)</h1>
+              <div className='table-row head'>
+                <div />
+                <div>Name</div>
+                <div>Display Name</div>
+                <div>Level</div>
+                <div>@path</div>
+                <div>Created by</div>
+                <div>Status</div>
+                <div>Last modified</div>
+              </div>
+              {categories.map((item) => {
+                const isSelected = selected.find((selectedItem) => selectedItem['@id'] === item['@id']);
+
+                return (
+                  <div
+                    className={'table-row' + (isSelected ? ' selected' : '')}
+                    onClick={() => setSelected((prev) => toggle(prev, item))}
+                  >
+                    <div>{isSelected ? '✅' : '🔲'}</div>
+                    <div>{item['name']}</div>
+                    <div>{item['displayName']}</div>
+                    <div>{item['level']}</div>
+                    <div>{item['@path']}</div>
+                    <div>{item['mgnl:createdBy']}</div>
+                    <div>{item['mgnl:activationStatus'] ? '🟢' : '🔴'}</div>
+                    <div>{item['mgnl:lastModified']}</div>
+                  </div>
+                );
+              })}
+            </div>
+            <div className='action-bar'>
+              <div
+                className='action'
+                disabled={selected.length !== 1}
+                onClick={() => {
+                  sessionStorage.setItem('selectedId', selected[0]['@id']);
+                  parent.window.postMessage(
+                    {
+                      correlationId: CORRELATION_ID,
+                      action: 'changeLocation',
+                      app: 'categories-js-app',
+                      subapp: 'secondApp',
+                      tabTitle: selected[0]['displayName'],
+                      urlParameter: selected[0]['@path'],
+                    },
+                    '*'
+                  );
+                }}
+              >
+                ✏️ Edit category
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      // Config
+      let CORRELATION_ID;
+      let CATEGORIES_URL;
+      let WEBAPP_CONTEXT_PATH;
+
+      window.addEventListener(
+        'message',
+        function (event) {
+          if (event.data.action === 'init') {
+            CORRELATION_ID = event.data.correlationId;
+            CATEGORIES_URL = event.data.state.parameters.categoriesUrl;
+            WEBAPP_CONTEXT_PATH = window.location.pathname.slice(0, window.location.pathname.indexOf("/.resources/"));
+
+            const container = document.getElementById('root');
+            const root = ReactDOM.createRoot(container);
+
+            root.render(<Browser />);
+          }
+        },
+        false
+      );
+    </script>
+  </body>
+</html>

@@ -1,0 +1,8 @@
+title: Built-in model properties
+renderType: freemarker
+templateScript: /javascript-model-samples/templates/components/built-in-model-properties.ftl
+
+
+class: info.magnolia.module.jsmodels.rendering.ConfiguredJavascriptTemplateDefinition
+modelClass: info.magnolia.module.jsmodels.rendering.JavascriptRenderingModel
+modelPath: /javascript-model-samples/templates/components/built-in-model-properties.js

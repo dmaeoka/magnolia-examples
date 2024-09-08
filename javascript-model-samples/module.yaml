@@ -1,0 +1,4 @@
+version: 1.0
+dependencies:
+  javascript-models:
+    version: 1.0/*

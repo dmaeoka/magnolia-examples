@@ -1,0 +1,5 @@
+
+title: Training Backend Live - Lockable Page
+renderType: freemarker
+dialog: training-backend-js-magic:pages/lockable-page
+templateScript: /training-backend-js-magic/templates/pages/lockable-page.ftl

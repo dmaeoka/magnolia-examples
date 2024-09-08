@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  </head>
+  <body>
+    <select id="input">
+      <option value="">-- Please choose an option --</option>
+      <option value="foo">foo</option>
+      <option value="bar">bar</option>
+    </select>
+    <script>
+      let input = document.getElementById('input');
+      let correlationId;
+
+      input.addEventListener('change', function () {
+        parent.window.postMessage({ action: 'changeValue', correlationId, value: input.value }, '*');
+      });
+
+      window.addEventListener(
+        'message',
+        function (event) {
+          if (event.data.action === 'init') {
+            correlationId = event.data.correlationId;
+            input.value = event.data.state.value || event.data.state.defaultValue || '';
+          }
+        },
+        false
+      );
+    </script>
+  </body>
+</html>

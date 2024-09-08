@@ -1,0 +1,7 @@
+workspace: category
+depth: 10
+limit: 1000
+systemProperties:
+  - mgnl:createdBy
+  - mgnl:activationStatus
+  - mgnl:lastModified

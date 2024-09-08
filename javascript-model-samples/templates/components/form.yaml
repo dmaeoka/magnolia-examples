@@ -1,0 +1,24 @@
+dialog: form:form
+description: Hi there
+modelClass: info.magnolia.module.form.templates.components.FormModel
+renderType: freemarker
+title: Form with Javascript Form Processor
+templateScript: /form/components/form.ftl
+class: info.magnolia.module.form.templates.components.FormParagraph
+formProcessors:
+  - name: saveContact
+    enabled: true
+    class: info.magnolia.module.jsmodels.form.JavascriptFormProcessor
+    formProcessorScriptPath: /javascript-model-samples/templates/js/formProcessors/saveContact.js
+parameters:
+  formEnctype: multipart/form-data
+areas:
+  fieldsets:
+    description: areas.components.form.fieldsets.description
+    type: list
+    title: areas.components.form.fieldsets.title
+    enabled: true
+    templateScript: /form/generic/listArea.ftl
+    availableComponents:
+      formGroupFields:
+        id: form:components/formGroupFields

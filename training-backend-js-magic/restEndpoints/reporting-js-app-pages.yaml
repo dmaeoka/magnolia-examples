@@ -1,0 +1,7 @@
+workspace: website
+limit: 10
+systemProperties:
+  - mgnl:createdBy
+  - mgnl:activationStatus
+  - mgnl:lastModified
+  - mgnl:lastModifiedBy

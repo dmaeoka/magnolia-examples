@@ -1,0 +1,36 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+}
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 60px;
+    background-color: #f5f5f5;
+}
+
+h4{
+    margin-top: 20px;
+}
+
+.container .text-muted {
+    margin: 20px 0;
+    font-size: 13px;
+}
+
+div.breadcrumbs{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 12px;
+}
+div.breadcrumbs > span{
+    padding-left: 10px;
+}

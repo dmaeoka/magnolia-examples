@@ -1,0 +1,9 @@
+title: Contacts List
+
+templateScript: /javascript-model-samples/templates/components/contacts.ftl
+renderType: freemarker
+
+
+class: info.magnolia.module.jsmodels.rendering.ConfiguredJavascriptTemplateDefinition
+modelClass: info.magnolia.module.jsmodels.rendering.JavascriptRenderingModel
+modelPath: /javascript-model-samples/templates/components/contacts.js

@@ -1,0 +1,6 @@
+title: HTML Form Sample
+templateScript: /javascript-model-samples/templates/components/htmlForm.ftl
+renderType: freemarker
+
+class: info.magnolia.module.jsmodels.rendering.JavascriptTemplateDefinition
+modelPath: /javascript-model-samples/templates/components/htmlForm.js

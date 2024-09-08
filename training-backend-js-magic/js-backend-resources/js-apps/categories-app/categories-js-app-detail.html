@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="./categories-js-app.css" rel="stylesheet" />
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      function Detail() {
+        const [msg, setMsg] = React.useState();
+        const [name, setName] = React.useState('');
+        const [displayName, setDisplayNamed] = React.useState('');
+
+        React.useEffect(() => {
+          if (URL_PARAMETER)
+            fetch(WEBAPP_CONTEXT_PATH + CATEGORIES_URL + URL_PARAMETER)
+              .then((res) => res.json())
+              .then((json) => {
+                setName(json?.name);
+                setDisplayNamed(json?.displayName);
+              });
+        }, []);
+
+        function handleSave() {
+          fetch(WEBAPP_CONTEXT_PATH + CATEGORIES_NODES_URL + URL_PARAMETER, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              properties: [
+                { name: 'name', type: 'String', multiple: false, values: [name] },
+                { name: 'displayName', type: 'String', multiple: false, values: [displayName] },
+              ],
+            }),
+          }).then((res) => {
+            if (res.ok) {
+              setMsg('Data successfully saved');
+            } else {
+              setMsg('Oops, something went wrong');
+            }
+          });
+        }
+
+        return (
+          <div className='Detail'>
+            <>
+              <div className='input-group'>
+                <div className='input-label'>Category name</div>
+                <input value={name} onChange={(e) => setName(e.target.value)} />
+              </div>
+              <div className='input-group'>
+                <div className='input-label'>Display name</div>
+                <input value={displayName} onChange={(e) => setDisplayNamed(e.target.value)} />
+              </div>
+              <div className='form-actions'>
+                <button onClick={handleSave}>Save changes</button>
+              </div>
+              {msg && (
+                <div className='form-msg'>
+                  <span className='form-msg-close' onClick={() => setMsg()}>
+                    ✕
+                  </span>
+                  {msg}
+                </div>
+              )}
+            </>
+          </div>
+        );
+      }
+
+      function webappContextFromPathname(pathname) {
+        return pathname.slice(0, pathname.indexOf("/.resources/"));
+      };
+
+      // Config
+      let CORRELATION_ID;
+      let CATEGORIES_URL;
+      let CATEGORIES_NODES_URL;
+      let URL_PARAMETER;
+      let WEBAPP_CONTEXT_PATH;
+
+      window.addEventListener(
+        'message',
+        function (event) {
+          if (event.data.action === 'init') {
+            CORRELATION_ID = event.data.correlationId;
+            CATEGORIES_URL = event.data.state.parameters.categoriesUrl;
+            CATEGORIES_NODES_URL = event.data.state.parameters.categoriesNodesUrl;
+            URL_PARAMETER = event.data.state.urlParameter;
+            WEBAPP_CONTEXT_PATH = window.location.pathname.slice(0, window.location.pathname.indexOf("/.resources/"));
+
+            const container = document.getElementById('root');
+            const root = ReactDOM.createRoot(container);
+
+            root.render(<Detail />);
+          }
+        },
+        false
+      );
+    </script>
+  </body>
+</html>

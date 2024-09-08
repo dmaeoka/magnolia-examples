@@ -1,0 +1,135 @@
+subApps:
+  browser:
+    workbench:
+      contentViews:
+        tree:
+          columns:
+            locked:
+              $type: jsColumn
+              label: Locked
+              width: 100
+              modelPath: /training-backend-js-magic/js-backend-resources/backend-live/valueProviders/BooleanIconValueProvider.js
+              parameters:
+                trueImg: 🔒
+
+    actions:      
+      turnOnLock: &turnOnLockAction
+        label: Turn on Lock
+        $type: jsAction
+        icon: icon-read-only
+        modelPath: /training-backend-js-magic/js-backend-resources/backend-live/actions/ChangeValueAction.js
+        parameters:
+          propertyName: locked
+          propertyValue: true
+        availability:
+          rules:
+            isTemplate: &isTemplateRule
+              $type: jsAvailability
+              modelPath: /training-backend-js-magic/js-backend-resources/backend-live/rules/IsTemplateRule.js
+              parameters:
+                templates:
+                  lockablePage: 'training-backend-js-magic:pages/lockable-page'
+                  lockableSubpage: 'training-backend-js-magic:pages/lockable-subpage'
+            isNotLocked: &isNotLockedRule
+              $type: jsAvailability
+              modelPath: /training-backend-js-magic/js-backend-resources/backend-live/rules/IsPropertyValueRule.js
+              parameters:
+                propertyName: locked
+                propertyValue: false
+      
+      turnOffLock:  &turnOffLockAction
+        label: Turn off Lock
+        icon: icon-logging-app
+        $type: jsAction
+        modelPath: /training-backend-js-magic/js-backend-resources/backend-live/actions/ChangeValueAction.js
+        parameters:
+          propertyName: locked
+          propertyValue: false
+        availability:
+          rules:
+            isTemplate: *isTemplateRule
+            isLocked:
+              $type: jsAvailability
+              modelPath: /training-backend-js-magic/js-backend-resources/backend-live/rules/IsPropertyValueRule.js
+              parameters:
+                propertyName: locked
+                propertyValue: true
+    
+    actionbar:
+      sections:
+        crud:
+          availability:
+            rules:
+              isNotLocked: *isNotLockedRule
+          groups:
+            lockActions:
+              items:
+                turnOnLock:
+                  name: turnOnLock
+                turnOffLock:
+                  name: turnOffLock
+                  
+        lock:
+          availability:
+            nodeTypes:
+              name: mgnl:page
+            rules:
+              isTemplate: *isTemplateRule
+              isLocked: &isLockedRule
+                $type: jsAvailability
+                modelPath: /training-backend-js-magic/js-backend-resources/backend-live/rules/IsPropertyValueRule.js
+                parameters:
+                  propertyName: locked
+                  propertyValue: true      
+          groups:
+            lockActions:
+              items:
+                turnOffLock:
+                  name: turnOffLock
+                preview:
+                  name: preview
+
+  detail:
+    actions:
+      turnOnLock: *turnOnLockAction
+      turnOffLock: *turnOffLockAction
+
+    actionbar:
+      sections:
+        pageActions:
+          availability: &notTemplateNorLockedAvailability
+            rules:
+              isNotLocked:
+                <<: *isNotLockedRule
+        areaActions:
+          availability:
+            <<: *notTemplateNorLockedAvailability
+        pageNodeAreaActions:
+          availability:
+            <<: *notTemplateNorLockedAvailability
+        componentActions:
+          availability:
+            <<: *notTemplateNorLockedAvailability
+        pageDeleteActions:
+          availability:
+            <<: *notTemplateNorLockedAvailability
+        pagePreviewActions:
+          availability:
+            <<: *notTemplateNorLockedAvailability
+        lockedPagePreviewActions:
+          availability:
+            nodeTypes:
+              name: mgnl:page
+            rules:
+              isTemplate: *isTemplateRule
+              isLocked: *isLockedRule
+              inPreview:
+                name: inPreview
+                class: info.magnolia.pages.app.detail.action.availability.IsPreviewRuleDefinition
+          groups:
+            publish:
+              items:
+                activate:
+                  name: activate
+                deactivate:
+                  name: deactivate

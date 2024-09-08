@@ -1,0 +1,11 @@
+title: Rendering context objects
+renderType: freemarker
+templateScript: /javascript-model-samples/templates/components/rendering-context-objects.ftl
+
+class: info.magnolia.module.jsmodels.rendering.ConfiguredJavascriptTemplateDefinition
+modelClass: info.magnolia.module.jsmodels.rendering.JavascriptRenderingModel
+modelPath: /javascript-model-samples/templates/components/rendering-context-objects.js
+
+parameters:
+  color: blue
+  size: 50

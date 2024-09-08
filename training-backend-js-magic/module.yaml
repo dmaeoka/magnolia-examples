@@ -1,0 +1,18 @@
+version: 1.0.0
+dependencies:
+  ## Ensures that this light module can only be used with Magnolia 6.2 or higher.
+  core:
+    version: 6.2.0/*
+  
+  ## Dependencies to the JAR-libraries needed. Read file 'README - How to use.md' for instructions on the needed JAR-libraries.
+  ## Commented out for eas od use in training. In a real project one would add/use these dependecies.
+#  javascript-models:
+#    version: 2.0.0/*
+#  ui-framework-javascript:
+#    version: 2.0.2/*
+#  backend-live-ui:
+#    version: 1.0.0/*
+#  backend-live-actions:
+#    version: 1.0.0/*
+#  backend-live-availability:
+#    version: 1.0.0/*

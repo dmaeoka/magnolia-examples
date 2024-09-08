@@ -1,0 +1,32 @@
+title: Javascript Samples Page
+templateScript: /javascript-model-samples/templates/pages/samplesPage.ftl
+renderType: freemarker
+dialog: javascript-model-samples:pages/samplesPage
+modelClass: info.magnolia.module.jsmodels.rendering.JavascriptRenderingModel
+class: info.magnolia.module.jsmodels.rendering.ConfiguredJavascriptTemplateDefinition
+modelPath: /javascript-model-samples/templates/pages/samplesPage.js
+visible: true
+
+areas:
+  navigation:
+    type: noComponent
+    createAreaNode: false
+    templateScript: /mtk/templates/areas/navigation.ftl
+  main:
+    availableComponents:
+      textImage:
+        id: mtk:components/textImage
+      names:
+        id: javascript-model-samples:components/names
+      htmlForm:
+        id: javascript-model-samples:components/htmlForm
+      form:
+        id: javascript-model-samples:components/form
+      rest:
+        id: javascript-model-samples:components/rest
+      contacts:
+        id: javascript-model-samples:components/contacts
+      rendering-context-objects:
+        id: javascript-model-samples:components/rendering-context-objects
+      parent-properties:
+        id: javascript-model-samples:components/built-in-model-properties

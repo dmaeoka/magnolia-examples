@@ -1,0 +1,55 @@
+!content-type:jsFieldsElement
+name: jsfields-app
+label: JS-Fields Elements (JS)
+icon: icon-packager-app
+
+subApps:
+  detail:
+    form:
+      implementationClass: info.magnolia.ui.javascript.form.FormViewWithChangeListener
+      properties:
+        #JS Field
+        colorField:
+          label: Color field
+          $type: javascriptField
+          fieldScript: /training-backend-js-magic/js-backend-resources/js-formfields/colorField.html
+          height: 50
+        #JS Field
+        textField:
+          label: Text field
+          $type: javascriptField
+          fieldScript: /training-backend-js-magic/js-backend-resources/js-formfields/textField.html
+          height: 40
+          defaultValue: Egestas Nibh
+        #JS Field
+        emailField:
+          label: Email field
+          $type: javascriptField
+          fieldScript: /training-backend-js-magic/js-backend-resources/js-formfields/emailField.html
+          height: 40
+          validators:
+            #OTB validator
+            email:
+              $type: emailValidator
+              errorMessage: Please enter a valid email address
+        #JS Field
+        conditionalField1:
+          label: Conditional field 1
+          $type: javascriptField
+          fieldScript: /training-backend-js-magic/js-backend-resources/js-formfields/conditionalField1.html
+          height: 40
+        #JS Field
+        conditionalField2:
+          label: Conditional field 2
+          $type: javascriptField
+          fieldScript: /training-backend-js-magic/js-backend-resources/js-formfields/conditionalField2.html
+          height: 40
+        #JS Field
+        withParameters:
+          label: With parameters
+          $type: javascriptField
+          fieldScript: /training-backend-js-magic/js-backend-resources/js-formfields/withParametersField.html
+          height: 40
+          parameters:
+            background: grey
+        

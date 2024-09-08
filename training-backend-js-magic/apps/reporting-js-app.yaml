@@ -1,0 +1,24 @@
+name: reporting-js-app
+label: Reporting (JS)
+icon: icon-templating-app
+
+class: info.magnolia.ui.contentapp.configuration.ContentAppDescriptor
+appClass: info.magnolia.ui.framework.app.BaseApp
+
+subApps:
+  pages:
+    class: info.magnolia.ui.javascript.app.JavascriptSubAppDescriptor
+    label: Pages
+    fieldScript: /training-backend-js-magic/js-backend-resources/js-apps/reporting-app/reporting-js-app-pages.html
+    parameters:
+      pagesUrl: '/.rest/reporting-js-app-pages'
+      urlParams: '?orderBy=mgnl:lastModified%20desc'
+
+  assets:
+    class: info.magnolia.ui.javascript.app.JavascriptSubAppDescriptor
+    label: Assets
+    fieldScript: /training-backend-js-magic/js-backend-resources/js-apps/reporting-app/reporting-js-app-assets.html
+    closable: false
+    parameters:
+      assetsUrl: '/.rest/reporting-js-app-assets'
+      urlParams: '?orderBy=mgnl:lastModified%20desc'
